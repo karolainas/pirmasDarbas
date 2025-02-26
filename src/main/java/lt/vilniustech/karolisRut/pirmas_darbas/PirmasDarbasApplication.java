@@ -1,4 +1,4 @@
-package lt.vilniustech.areipsleger.pirmas_darbas;
+package lt.vilniustech.karolisRut.pirmas_darbas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

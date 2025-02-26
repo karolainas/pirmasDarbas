@@ -1,0 +1,5 @@
+id;account_number;account_name;amount
+1;100001;Checking;100.0
+2;100002;Savings;200.0
+3;100003;Business;300.0
+4;100004;Investment;400.0
