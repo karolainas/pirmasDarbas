@@ -32,6 +32,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.liquibase</groupId>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+			</exclusions>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 		<dependency>
