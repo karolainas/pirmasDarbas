@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,11 +24,11 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "account_id")
     )
-    private List<Account> accounts;
+    private List<Agent> accounts;
 
-    public Customer() {}
+    public Appointment() {}
 
-    public Customer(int id, String firstName, String lastName, String suffix) {
+    public Appointment(int id, String firstName, String lastName, String suffix) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

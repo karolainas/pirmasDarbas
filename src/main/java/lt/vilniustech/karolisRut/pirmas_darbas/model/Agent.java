@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "account")
-public class Account {
+public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,7 +18,7 @@ public class Account {
     @Column(nullable = false)
     private float amount;
 
-    public Account() {}
+    public Agent() {}
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

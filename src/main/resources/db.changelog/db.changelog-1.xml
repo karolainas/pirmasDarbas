@@ -4,60 +4,69 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="create-customer-table" author="augustas.reipsleger@stud.vilniustech.lt">
-        <createTable tableName="CUSTOMER">
+    <!-- AGENT TABLE -->
+    <changeSet id="create-agent-table" author="karolisRut">
+        <createTable tableName="agent">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="first_name" type="varchar(100)">
+            <column name="firstname" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_name" type="varchar(100)">
+            <column name="lastname" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="suffix" type="varchar(50)"/>
         </createTable>
     </changeSet>
 
-    <changeSet id="load-customer-data" author="augustas.reipsleger@stud.vilniustech.lt">
-        <loadData separator=";" tableName="CUSTOMER" file="customer.csv" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-account-table" author="augustas.reipsleger@stud.vilniustech.lt">
-        <createTable tableName="ACCOUNT">
+    <!-- BUYER TABLE -->
+    <changeSet id="create-buyer-table" author="chatgpt">
+        <createTable tableName="buyer">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="account_number" type="varchar(50)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="account_name" type="varchar(100)">
+            <column name="firstname" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="amount" type="numeric(10,2)"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="load-account-data" author="augustas.reipsleger@stud.vilniustech.lt">
-        <loadData separator=";" tableName="ACCOUNT" file="account.csv" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-customer-account-table" author="augustas.reipsleger@stud.vilniustech.lt">
-        <createTable tableName="CUSTOMER_ACCOUNT">
-            <column name="customer_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="FK_CustomerAccount_Customer"
-                             references="CUSTOMER(id)"/>
-            </column>
-            <column name="account_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="FK_CustomerAccount_Account"
-                             references="ACCOUNT(id)"/>
+            <column name="lastname" type="varchar(64)">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="load-customer-account-relation-data" author="augustas.reipsleger@stud.vilniustech.lt">
-        <loadData file="customer-account.csv" separator=";" tableName="CUSTOMER_ACCOUNT"
-                  relativeToChangelogFile="true"/>
+    <!-- PROPERTY TABLE -->
+    <changeSet id="create-property-table" author="chatgpt">
+        <createTable tableName="property">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address" type="varchar(128)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price" type="numeric(10, 2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
     </changeSet>
 
+    <!-- APPOINTMENT TABLE -->
+    <changeSet id="create-appointment-table" author="chatgpt">
+        <createTable tableName="appointment">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="appointment_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="property_id" type="bigint">
+                <constraints nullable="false" referencedTableName="property" referencedColumnNames="id" foreignKeyName="AppointmentPropertyFk"/>
+            </column>
+            <column name="buyer_id" type="bigint">
+                <constraints nullable="false" referencedTableName="buyer" referencedColumnNames="id" foreignKeyName="AppointmentBuyerFk"/>
+            </column>
+            <column name="agent_id" type="bigint">
+                <constraints nullable="false" referencedTableName="agent" referencedColumnNames="id" foreignKeyName="AppointmentAgentFk"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
