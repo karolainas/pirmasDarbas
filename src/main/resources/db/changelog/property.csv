@@ -1,0 +1,5 @@
+id;address;type;size;price;description;status
+1;S. Stanevičiaus g. 2A, Kaunas;apartment;42;200000;blah blah;active
+2;Gelvonų g. 9, Vilnius;apartment;42;150000;blah blah;active
+3;Runkelių g. 55, Mažeikiai;apartment;42;300000;blah blah;active
+4;Kiškio Piškio g. 69, Šilalė;apartment;42;100000;blah blah;active

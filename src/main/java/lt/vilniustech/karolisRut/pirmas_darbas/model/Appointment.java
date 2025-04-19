@@ -1,49 +1,85 @@
 package lt.vilniustech.karolisRut.pirmas_darbas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import java.util.List;
+import jakarta.xml.bind.annotation.*;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+/**
+ * Entity class representing an appointment in the real estate system.
+ * <p>
+ * This class is mapped to the {@code appointment} table in the database and
+ * supports serialization to both JSON and XML formats. Each appointment
+ * is linked to a {@link Property}, a {@link Buyer}, and an {@link Agent}.
+ * </p>
+ */
 @Entity
-@Table(name = "customer")
+@Table(name = "appointment")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Appointment {
+
+    /**
+     * Unique identifier for the appointment.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("id")
+    @XmlElement(name = "id")
+    private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
+    /**
+     * The date and time of the appointment.
+     */
+    private LocalDateTime appointmentDate;
 
-    @Column(nullable = false)
-    private String lastName;
-
-    private String suffix;
-
-    @OneToMany
-    @JoinTable(
-            name = "customer_account",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_id")
-    )
-    private List<Agent> accounts;
-
-    public Appointment() {}
-
-    public Appointment(int id, String firstName, String lastName, String suffix) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.suffix = suffix;
+    /**
+     * Retrieves the formatted appointment date as a string.
+     * <p>
+     * This is used for XML and JSON serialization.
+     * AppointmentDate needs it's own implementation
+     * because the serializer cannot properly
+     * process the LocalDateTime format.
+     * </p>
+     *
+     * @return A string representation of the appointment date.
+     */
+    @JsonProperty("appointment_date")
+    @XmlElement(name = "appointment_date")
+    private String getFormattedAppointmentDate() {
+        return appointmentDate != null ? appointmentDate.toString() : null;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    /**
+     * The property associated with this appointment.
+     * <p>
+     * This relationship is managed by a foreign key in the database.
+     * </p>
+     */
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    @XmlTransient
+    private Property property;
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    /**
+     * The buyer involved in this appointment.
+     */
+    @ManyToOne
+    @JoinColumn(name = "buyer_id", nullable = false)
+    @XmlTransient
+    private Buyer buyer;
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getSuffix() { return suffix; }
-    public void setSuffix(String suffix) { this.suffix = suffix; }
+    /**
+     * The agent responsible for this appointment.
+     */
+    @ManyToOne
+    @JoinColumn(name = "agent_id", nullable = false)
+    @XmlTransient
+    private Agent agent;
 }
