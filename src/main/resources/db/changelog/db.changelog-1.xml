@@ -4,8 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <!-- AGENT TABLE -->
-    <changeSet id="create-agent-table" author="karolisRut">
+    <!--AGENT TABLE-->
+    <changeSet id="create-agent-table" author="karolsas">
         <createTable tableName="agent">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -16,11 +16,23 @@
             <column name="lastname" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
+            <column name="email" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="license" type="varchar(128)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="properties_sold" type="int">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
+    <changeSet id="load-agent-data" author="karolsas">
+        <loadData separator=";" tableName="agent" file="agent.csv" relativeToChangelogFile="true"/>
+    </changeSet>
 
-    <!-- BUYER TABLE -->
-    <changeSet id="create-buyer-table" author="chatgpt">
+    <!--BUYER TABLE-->
+    <changeSet id="create-buyer-table" author="karolsas">
         <createTable tableName="buyer">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -31,11 +43,17 @@
             <column name="lastname" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
+            <column name="financing" type="boolean">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
+    <changeSet id="load-buyer-data" author="karolsas">
+        <loadData separator=";" tableName="buyer" file="buyer.csv" relativeToChangelogFile="true"/>
+    </changeSet>
 
-    <!-- PROPERTY TABLE -->
-    <changeSet id="create-property-table" author="chatgpt">
+    <!--PROPERTY TABLE-->
+    <changeSet id="create-property-table" author="k.riaubunas">
         <createTable tableName="property">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -43,7 +61,19 @@
             <column name="address" type="varchar(128)">
                 <constraints nullable="true"/>
             </column>
+            <column name="type" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="size" type="int">
+                <constraints nullable="true"/>
+            </column>
             <column name="price" type="numeric(10, 2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
         </createTable>
@@ -59,13 +89,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="property_id" type="bigint">
-                <constraints nullable="false" referencedTableName="property" referencedColumnNames="id" foreignKeyName="AppointmentPropertyFk"/>
+                <constraints referencedTableName="property" referencedColumnNames="id" nullable="false" foreignKeyName="AppointmentPropertyFk"/>
             </column>
             <column name="buyer_id" type="bigint">
-                <constraints nullable="false" referencedTableName="buyer" referencedColumnNames="id" foreignKeyName="AppointmentBuyerFk"/>
+                <constraints referencedTableName="buyer" referencedColumnNames="id" nullable="false" foreignKeyName="AppointmentBuyerFk"/>
             </column>
             <column name="agent_id" type="bigint">
-                <constraints nullable="false" referencedTableName="agent" referencedColumnNames="id" foreignKeyName="AppointmentAgentFk"/>
+                <constraints referencedTableName="agent" referencedColumnNames="id" nullable="false" foreignKeyName="AppointmentAgentFk"/>
             </column>
         </createTable>
     </changeSet>

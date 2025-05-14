@@ -1,5 +1,3 @@
 id;firstname;lastname;email;license;properties_sold
-1;Gedas;Minas;gedas.minas@pastas.lt;123456789;5
-2;Deima;Antė;deima.ante@yahoo.woo;987654321;12
-3;Antas;Nanas;antas.nanas@bruh.sheesh;741085296;1
-4;Kata;Žina;kata.zina@auksas.org;987654369;2
+1;Max;Galingumas;max.galingumas@pastas.lt;123456789;5
+2;Vejas;Nupustas;vejas.nupustas@gmail.lt;987654321;10
